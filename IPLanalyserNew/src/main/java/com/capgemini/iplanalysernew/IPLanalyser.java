@@ -174,8 +174,20 @@ public class IPLanalyser {
 		bowlerComparator = bowlerComparator.thenComparing(IPLBowling::getStrikeRate);
 		return getBowlerName();
 	}
-
-
+	/**
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String getMaxWktsWithBestAvg() throws IPLAnalyserException {
+		checkForBowlerData();
+		bowlerComparator = Comparator.comparing(s -> s.fourWickets + s.fiveWickets);
+		bowlerComparator = bowlerComparator.reversed();
+		bowlerComparator = bowlerComparator.thenComparing(IPLBowling::getAverage);
+		return getBowlerName();
+	}
+	/**
+	 * @return
+	 */
 	private String getBatsmanName() {
 		Comparator<PlayerRuns> runsComparator = null;
 		this.sortBatsmenData(runsComparator);
