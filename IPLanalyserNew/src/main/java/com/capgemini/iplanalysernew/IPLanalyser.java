@@ -17,6 +17,10 @@ public class IPLanalyser {
 	
 	List<PlayerRuns> playerRunsList = null;
 
+	/**
+	 * @param filePath
+	 * @throws IPLAnalyserException
+	 */
 	public void loadRunsData(String filePath) throws IPLAnalyserException{
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(filePath));
@@ -31,6 +35,10 @@ public class IPLanalyser {
 
 	}
 
+	/**
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
 	public String getTopBattingAvg() throws IPLAnalyserException {
 		if (playerRunsList == null || playerRunsList.size() == 0) {
             throw new IPLAnalyserException(IPLAnalyserException.Exception.NO_CENSUS_DATA);
@@ -39,6 +47,31 @@ public class IPLanalyser {
 		List<PlayerRuns> player = playerRunsList.stream().filter(s->s.average.equals(Double.toString(max))).collect(Collectors.toList());
 		return player.get(0).player;		
 	}
-	
+	/**
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String getTopStrikeRate() throws IPLAnalyserException {
+		if (playerRunsList == null || playerRunsList.size() == 0) {
+			throw new IPLAnalyserException(IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		double maxStrikeRate = playerRunsList.stream().map(s -> s.strikeRate).max(Double::compare).get();
+		List<PlayerRuns> player = playerRunsList.stream().filter(s -> s.strikeRate == maxStrikeRate)
+				.collect(Collectors.toList());
+		return player.get(0).player;
+	}
+	/**
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String getMaximum6sAnd4s() throws IPLAnalyserException {
+		if (playerRunsList == null || playerRunsList.size() == 0) {
+			throw new IPLAnalyserException(IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+		int maxSixesAndFours = playerRunsList.stream().map(s -> s.sixes + s.fours).max(Integer::compare).get();
+		List<PlayerRuns> player = playerRunsList.stream().filter(s -> s.sixes + s.fours == maxSixesAndFours)
+				.collect(Collectors.toList());
+		return player.get(0).player;
+	}
 
 }
