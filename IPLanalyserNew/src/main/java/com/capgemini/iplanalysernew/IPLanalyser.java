@@ -75,6 +75,10 @@ public class IPLanalyser {
 				.collect(Collectors.toList());
 		return player.get(0).player;
 	}
+	/**
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
 	public String getBestStrickRateMaximum6sAnd4s() throws IPLAnalyserException {
 		checkForData();
 		censusComparator = Comparator.comparing(s -> s.sixes + s.fours);
@@ -92,6 +96,12 @@ public class IPLanalyser {
 	public String getGreatAvgwithBestStrickRate() throws IPLAnalyserException {
 		checkForData();
 		Comparator<PlayerRuns> runsComparator = Comparator.comparing(PlayerRuns::getAverage).thenComparing(s -> s.strikeRate);
+		return getBatsmanName();
+	}
+	public String getMaxRunsWithBestAvg() throws IPLAnalyserException {
+		checkForData();
+		runsComparator = Comparator.comparing(s -> s.runs);
+		runsComparator = runsComparator.thenComparing(PlayerRuns::getAverage);
 		return getBatsmanName();
 	}
 
