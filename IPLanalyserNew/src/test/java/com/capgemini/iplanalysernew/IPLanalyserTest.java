@@ -101,6 +101,16 @@ public class IPLanalyserTest {
 					e.printStackTrace();
 				}
 			}
+			@Test
+			public void givenWktsCsvDataShouldReturnBestStrikeRateWith4W5W() {
+				try {
+					iplAnalyser.loadWktsData(PLAYER_WKTS_DATA);
+					String playerName = iplAnalyser.getBestStrikeRateWith4w5w();
+					assertEquals("Kagiso Rabada", playerName);
+				} catch (IPLAnalyserException e) {
+					e.printStackTrace();
+				}
+			}
 	}
 		
 
