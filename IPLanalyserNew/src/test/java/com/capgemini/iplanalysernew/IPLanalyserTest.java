@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 public class IPLanalyserTest {
 	private final String PLAYER_RUNS_DATA = "C:\\Users\\ASUS\\eclipse-workspace\\IPLanalyserNew\\src\\main\\resources\\batsmanruns.csv";
+	private final String PLAYER_WKTS_DATA = "C:\\Users\\ASUS\\eclipse-workspace\\IPLanalyserNew\\src\\main\\resources\\bowlerswickets.csv";
 	IPLanalyser iplAnalyser = null;
 	@Before
 	public void createIplAnalyserObject() {
@@ -66,6 +67,16 @@ public class IPLanalyserTest {
 					iplAnalyser.loadRunsData(PLAYER_RUNS_DATA);
 					String playerName = iplAnalyser.getMaxRunsWithBestAvg();
 					assertEquals("David Warner", playerName);
+				} catch (IPLAnalyserException e) {
+					e.printStackTrace();
+				}
+			}
+			@Test
+			public void givenWktsCsvDataShouldReturnTopBowlingAvg() {
+				try {
+					iplAnalyser.loadWktsData(PLAYER_WKTS_DATA);
+					String playerName = iplAnalyser.getTopBowlingAvg();
+					assertEquals("Anukul Roy", playerName);
 				} catch (IPLAnalyserException e) {
 					e.printStackTrace();
 				}

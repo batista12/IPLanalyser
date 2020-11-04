@@ -18,6 +18,8 @@ public class IPLanalyser {
 	List<PlayerRuns> playerRunsList = null;
 	private Comparator<PlayerRuns> censusComparator;
 	Comparator<PlayerRuns> runsComparator = null;
+	private List<IPLBowling> bowlerDataList = null;
+	private Comparator<IPLBowling> bowlerComparator;
 
 	/**
 	 * @param filePath
@@ -28,9 +30,19 @@ public class IPLanalyser {
 			Reader reader = Files.newBufferedReader(Paths.get(filePath));
 			new CsvBuilderFactory();
 			ICsvBuilder csvBuilderCustom = CsvBuilderFactory.createBuilderCommons();
-
 			playerRunsList = csvBuilderCustom.getCSVFileList(reader,PlayerRuns.class);	
            
+		} catch (IOException e) {
+			throw new IPLAnalyserException(IPLAnalyserException.Exception.INCORRECT_FILE);
+		}
+
+	}
+	public void loadWktsData(String filePath) throws IPLAnalyserException {
+		try (Reader reader = Files.newBufferedReader(Paths.get(filePath));) {
+			new CsvBuilderFactory();
+			ICsvBuilder csvBuilderCustom = CsvBuilderFactory.createBuilderCommons();
+			bowlerDataList = csvBuilderCustom.getCSVFileList(reader, IPLBowling.class);
+
 		} catch (IOException e) {
 			throw new IPLAnalyserException(IPLAnalyserException.Exception.INCORRECT_FILE);
 		}
@@ -80,7 +92,7 @@ public class IPLanalyser {
 	 * @throws IPLAnalyserException
 	 */
 	public String getBestStrickRateMaximum6sAnd4s() throws IPLAnalyserException {
-		checkForData();
+		checkForData1();
 		censusComparator = Comparator.comparing(s -> s.sixes + s.fours);
 		censusComparator = censusComparator.thenComparing(s -> s.strikeRate);
 		this.sortBatsmenData(censusComparator);
@@ -88,21 +100,41 @@ public class IPLanalyser {
 		return playerRunsList.get(0).player;
 	}
 
-	public void checkForData() throws IPLAnalyserException {
+	public void checkForData1() throws IPLAnalyserException {
 		if (playerRunsList == null || playerRunsList.size() == 0) {
 			throw new IPLAnalyserException(IPLAnalyserException.Exception.NO_CENSUS_DATA);
 		}
 	}
 	public String getGreatAvgwithBestStrickRate() throws IPLAnalyserException {
-		checkForData();
+		checkForData1();
 		Comparator<PlayerRuns> runsComparator = Comparator.comparing(PlayerRuns::getAverage).thenComparing(s -> s.strikeRate);
 		return getBatsmanName();
 	}
 	public String getMaxRunsWithBestAvg() throws IPLAnalyserException {
-		checkForData();
+		checkForData1();
 		runsComparator = Comparator.comparing(s -> s.runs);
 		runsComparator = runsComparator.thenComparing(PlayerRuns::getAverage);
 		return getBatsmanName();
+	}
+	public String getTopBowlingAvg() throws IPLAnalyserException {
+		checkForBowlerData();
+		bowlerComparator = Comparator.comparing(IPLBowling::getAverage);
+		return getBowlerName();
+	}
+	private String getBowlerName() {
+		this.sortBowlerData(bowlerComparator);
+		return bowlerDataList.get(0).player;
+	}
+
+	private void sortBowlerData(Comparator<IPLBowling> bowlerComparator2) {
+		
+	}
+
+	private void checkForBowlerData() throws IPLAnalyserException {
+		List<PlayerRuns> bowlerDataList = null;
+		if (bowlerDataList == null || bowlerDataList.size() == 0) {
+			throw new IPLAnalyserException(IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
 	}
 
 	private String getBatsmanName() {
@@ -110,6 +142,14 @@ public class IPLanalyser {
 		this.sortBatsmenData(runsComparator);
 		Collections.reverse(playerRunsList);
 		return playerRunsList.get(0).player;
+	}
+	/**
+	 * @throws IPLAnalyserException
+	 */
+	private void checkForData() throws IPLAnalyserException {
+		if (playerRunsList == null || playerRunsList.size() == 0) {
+			throw new IPLAnalyserException(IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
 	}
 
 	/**
@@ -126,6 +166,18 @@ public class IPLanalyser {
 				}
 			}
 		}
-
+		}
+		private void sortBowlerData1(Comparator<IPLBowling> comparator) {
+			for (int i = 0; i < bowlerDataList.size() - 1; i++) {
+				for (int j = 0; j < bowlerDataList.size() - i - 1; j++) {
+					IPLBowling census1 = bowlerDataList.get(j);
+					IPLBowling census2 = bowlerDataList.get(j + 1);
+					if (comparator.compare(census1, census2) > 0) {
+						bowlerDataList.set(j, census2);
+						bowlerDataList.set(j + 1, census1);
+					}
+				}
+			}
 }
+
 }
