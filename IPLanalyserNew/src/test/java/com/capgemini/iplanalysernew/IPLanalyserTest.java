@@ -39,6 +39,15 @@ public class IPLanalyserTest {
 		} catch (IPLAnalyserException e) {
 			e.printStackTrace();
 		}
-
+	}
+		@Test
+		public void givenCsvDataShouldReturnPlayerwithBestStrikeRateWithMax6sand4s() {
+			try {
+				iplAnalyser.loadRunsData(PLAYER_RUNS_DATA);
+				String playerName = iplAnalyser.getBestStrickRateMaximum6sAnd4s();
+				assertEquals("Andre Russell", playerName);
+			} catch (IPLAnalyserException e) {
+				e.printStackTrace();
+			}
 	}
 }

@@ -16,6 +16,7 @@ import com.capgemini.csvbuilder.ICsvBuilder;
 public class IPLanalyser {
 	
 	List<PlayerRuns> playerRunsList = null;
+	private Comparator<PlayerRuns> censusComparator;
 
 	/**
 	 * @param filePath
@@ -73,5 +74,35 @@ public class IPLanalyser {
 				.collect(Collectors.toList());
 		return player.get(0).player;
 	}
+	public String getBestStrickRateMaximum6sAnd4s() throws IPLAnalyserException {
+		checkForData();
+		censusComparator = Comparator.comparing(s -> s.sixes + s.fours);
+		censusComparator = censusComparator.thenComparing(s -> s.strikeRate);
+		this.sortBatsmenData(censusComparator);
+		Collections.reverse(playerRunsList);
+		return playerRunsList.get(0).player;
+	}
 
+	public void checkForData() throws IPLAnalyserException {
+		if (playerRunsList == null || playerRunsList.size() == 0) {
+			throw new IPLAnalyserException(IPLAnalyserException.Exception.NO_CENSUS_DATA);
+		}
+	}
+
+	/**
+	 * @param censusComparator2
+	 */
+	private void sortBatsmenData(Comparator<PlayerRuns> censusComparator2) {
+		for (int i = 0; i < playerRunsList.size() - 1; i++) {
+			for (int j = 0; j < playerRunsList.size() - i - 1; j++) {
+				PlayerRuns census1 = playerRunsList.get(j);
+				PlayerRuns census2 = playerRunsList.get(j + 1);
+				if (censusComparator2.compare(census1, census2) > 0) {
+					playerRunsList.set(j, census2);
+					playerRunsList.set(j + 1, census1);
+				}
+			}
+		}
+
+}
 }
