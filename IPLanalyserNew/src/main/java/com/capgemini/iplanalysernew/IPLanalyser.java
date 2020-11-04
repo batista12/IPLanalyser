@@ -135,12 +135,25 @@ public class IPLanalyser {
 		return getBowlerName();
 	}
 
+	/**
+	 * @throws IPLAnalyserException
+	 */
 	private void checkForBowlerData() throws IPLAnalyserException {
 		List<PlayerRuns> bowlerDataList = null;
 		if (bowlerDataList == null || bowlerDataList.size() == 0) {
 			throw new IPLAnalyserException(IPLAnalyserException.Exception.NO_CENSUS_DATA);
 		}
 	}
+	/**
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String getBestEconomy() throws IPLAnalyserException {
+		checkForBowlerData();
+		bowlerComparator = Comparator.comparing(s -> s.economy);
+		return getBowlerName();
+	}
+
 
 	private String getBatsmanName() {
 		Comparator<PlayerRuns> runsComparator = null;

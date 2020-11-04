@@ -91,6 +91,16 @@ public class IPLanalyserTest {
 					e.printStackTrace();
 				}
 			}
+			@Test
+			public void givenWktsCsvDataShouldReturnBestEconomy() {
+				try {
+					iplAnalyser.loadWktsData(PLAYER_WKTS_DATA);
+					String playerName = iplAnalyser.getBestEconomy();
+					assertEquals("Shivam Dube", playerName);
+				} catch (IPLAnalyserException e) {
+					e.printStackTrace();
+				}
+			}
 	}
 		
 
