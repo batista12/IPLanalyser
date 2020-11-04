@@ -220,12 +220,23 @@ public class IPLanalyser {
 		for (PlayerRuns b : playerRunsList) {
 			for (IPLBowling bo : bowlerDataList) {
 				if (b.player.equals(bo.player)) {
-					
+				
 					return b.player;
 				}
 			}
 		}
 		return null;
+	}
+	/**
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String getZeroHundredsFiftiesWithBestAvg() throws IPLAnalyserException {
+		checkForData();
+		runsComparator = Comparator.comparing(s -> s.hundreds + s.fifties);
+		runsComparator = runsComparator.reversed();
+		runsComparator = runsComparator.thenComparing(PlayerRuns::getAverage);
+		return getBatsmanName();
 	}
 	/**
 	 * @return

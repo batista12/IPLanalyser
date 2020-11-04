@@ -154,6 +154,17 @@ public class IPLanalyserTest {
 					e.printStackTrace();
 				}
 			}
+			@Test
+			public void givenrunsCsvDataShouldReturnZeroHundredsFiftiesWithBestAvg() {
+				try {
+					
+					iplAnalyser.loadRunsData(PLAYER_RUNS_DATA);
+					String playerName = iplAnalyser.getZeroHundredsFiftiesWithBestAvg();
+					assertEquals("Marcus Stoinis", playerName);
+				} catch (IPLAnalyserException e) {
+					e.printStackTrace();
+				}
+			}
 	}
 		
 
