@@ -81,6 +81,16 @@ public class IPLanalyserTest {
 					e.printStackTrace();
 				}
 			}
+			@Test
+			public void givenWktsCsvDataShouldReturnTopStrikeRate() {
+				try {
+					iplAnalyser.loadWktsData(PLAYER_WKTS_DATA);
+					String playerName = iplAnalyser.getTopBowlingStrakeRate();
+					assertEquals("Alzarri Joseph", playerName);
+				} catch (IPLAnalyserException e) {
+					e.printStackTrace();
+				}
+			}
 	}
 		
 
