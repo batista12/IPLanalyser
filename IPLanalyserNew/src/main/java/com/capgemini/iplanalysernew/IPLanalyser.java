@@ -17,6 +17,7 @@ public class IPLanalyser {
 	
 	List<PlayerRuns> playerRunsList = null;
 	private Comparator<PlayerRuns> censusComparator;
+	Comparator<PlayerRuns> runsComparator = null;
 
 	/**
 	 * @param filePath
@@ -87,6 +88,18 @@ public class IPLanalyser {
 		if (playerRunsList == null || playerRunsList.size() == 0) {
 			throw new IPLAnalyserException(IPLAnalyserException.Exception.NO_CENSUS_DATA);
 		}
+	}
+	public String getGreatAvgwithBestStrickRate() throws IPLAnalyserException {
+		checkForData();
+		Comparator<PlayerRuns> runsComparator = Comparator.comparing(PlayerRuns::getAverage).thenComparing(s -> s.strikeRate);
+		return getBatsmanName();
+	}
+
+	private String getBatsmanName() {
+		Comparator<PlayerRuns> runsComparator = null;
+		this.sortBatsmenData(runsComparator);
+		Collections.reverse(playerRunsList);
+		return playerRunsList.get(0).player;
 	}
 
 	/**
