@@ -187,6 +187,26 @@ public class IPLanalyser {
 	}
 	/**
 	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String getBestBattingAvgBestBowlingAvg() throws IPLAnalyserException {
+		checkForBowlerData();
+		runsComparator = Comparator.comparing(PlayerRuns::getAverage);
+		getBatsmanName();
+		bowlerComparator = Comparator.comparing(IPLBowling::getAverage);
+		getBowlerName();
+
+		for (PlayerRuns b : playerRunsList) {
+			for (IPLBowling bo : bowlerDataList) {
+				if (b.player.equals(bo.player)) {
+					return b.player;
+				}
+			}
+		}
+		return null;
+	}
+	/**
+	 * @return
 	 */
 	private String getBatsmanName() {
 		Comparator<PlayerRuns> runsComparator = null;
