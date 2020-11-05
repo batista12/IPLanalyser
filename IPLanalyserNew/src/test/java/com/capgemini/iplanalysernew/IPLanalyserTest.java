@@ -157,6 +157,7 @@ public class IPLanalyserTest {
 			@Test
 			public void givenrunsCsvDataShouldReturnZeroHundredsFiftiesWithBestAvg() {
 				try {
+					
 					iplAnalyser.loadRunsData(PLAYER_RUNS_DATA);
 					String playerName = iplAnalyser.getZeroHundredsFiftiesWithBestAvg();
 					assertEquals("Marcus Stoinis", playerName);
