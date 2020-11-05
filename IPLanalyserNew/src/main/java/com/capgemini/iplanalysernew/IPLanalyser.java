@@ -129,6 +129,11 @@ public class IPLanalyser {
 	private void sortBowlerData(Comparator<IPLBowling> bowlerComparator2) {
 		
 	}
+	public String getTopBowlingStrakeRate() throws IPLAnalyserException {
+		checkForBowlerData();
+		bowlerComparator = Comparator.comparing(IPLBowling::getStrikeRate);
+		return getBowlerName();
+	}
 
 	private void checkForBowlerData() throws IPLAnalyserException {
 		List<PlayerRuns> bowlerDataList = null;
