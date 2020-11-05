@@ -144,6 +144,7 @@ public class IPLanalyserTest {
 			}
 			@Test
 			public void givenWktsCsvDataShouldReturnBestAllRounder() {
+				
 				try {
 					iplAnalyser.loadRunsData(PLAYER_RUNS_DATA);
 					iplAnalyser.loadWktsData(PLAYER_WKTS_DATA);

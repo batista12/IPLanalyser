@@ -220,6 +220,7 @@ public class IPLanalyser {
 		for (PlayerRuns b : playerRunsList) {
 			for (IPLBowling bo : bowlerDataList) {
 				if (b.player.equals(bo.player)) {
+					
 					return b.player;
 				}
 			}
