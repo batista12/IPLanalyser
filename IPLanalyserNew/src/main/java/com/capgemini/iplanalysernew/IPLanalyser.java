@@ -229,6 +229,17 @@ public class IPLanalyser {
 	}
 	/**
 	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String getZeroHundredsFiftiesWithBestAvg() throws IPLAnalyserException {
+		checkForData();
+		runsComparator = Comparator.comparing(s -> s.hundreds + s.fifties);
+		runsComparator = runsComparator.reversed();
+		runsComparator = runsComparator.thenComparing(PlayerRuns::getAverage);
+		return getBatsmanName();
+	}
+	/**
+	 * @return
 	 */
 	private String getBatsmanName() {
 		Comparator<PlayerRuns> runsComparator = null;
