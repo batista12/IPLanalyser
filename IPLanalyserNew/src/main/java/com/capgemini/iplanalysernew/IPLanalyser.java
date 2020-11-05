@@ -153,6 +153,17 @@ public class IPLanalyser {
 		bowlerComparator = Comparator.comparing(s -> s.economy);
 		return getBowlerName();
 	}
+	/**
+	 * @return
+	 * @throws IPLAnalyserException
+	 */
+	public String getBestStrikeRateWith4w5w() throws IPLAnalyserException {
+		checkForBowlerData();
+		bowlerComparator = Comparator.comparing(s -> s.fourWickets + s.fiveWickets);
+		bowlerComparator = bowlerComparator.reversed();
+		bowlerComparator = bowlerComparator.thenComparing(IPLBowling::getStrikeRate);
+		return getBowlerName();
+	}
 
 
 	private String getBatsmanName() {
